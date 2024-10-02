@@ -13,7 +13,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 # Variables
 $LAWName = "azurelimits"
-$logAnalyticsWorkspaceId = "<LAW Workspace ID>"
+$logAnalyticsWorkspaceId = "/subscriptions/04f9bee3-e68d-4e2a-8edb-6d6cdbca4348/resourcegroups/automation/providers/microsoft.operationalinsights/workspaces/azurelimits"
 $DiagnosticSettingsName = "TLSTransactionLogs"
 $Context = $null
 $SubscriptionId = $null
@@ -39,6 +39,15 @@ $Query = 'resources
             | extend tlsVersion = properties.minimumTlsVersion
             | where isnotempty(tlsVersion) and tlsVersion !contains "2"
             | sort by subscriptionId asc'
+<#
+$Query = 'resources 
+            | where type =~ "Microsoft.Storage/storageAccounts" 
+            | extend properties = parse_json(properties)
+            | where name =~ "<Storage Account Name>"
+            | extend tlsVersion = properties.minimumTlsVersion
+            | where isnotempty(tlsVersion) and tlsVersion !contains "2"
+            | sort by subscriptionId asc'
+#>
 $kqlQuery = Search-AzGraph -Query $Query -UseTenantScope
 
 # Setting up Log Configuration for Transaction Logs
