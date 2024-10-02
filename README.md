@@ -11,6 +11,8 @@ Mandatory Modules:<br />
 - This information can be found from the Azure portal:<br />
   - ![image](https://github.com/user-attachments/assets/32926310-55ca-442c-9fd1-114e50982aca)
 - Replace "LAW Workspace ID" with the Workspace ID from the Azure portal<br />
+  - ![image](https://github.com/user-attachments/assets/fc54cdc4-89b4-42ed-bd2c-88a652be29b5)
+
 
 # The code can be executed simply starting the execution:
 - .\EnableTransactionLogs.ps1
