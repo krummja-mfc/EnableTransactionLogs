@@ -18,6 +18,10 @@ $DiagnosticSettingsName = "TLSTransactionLogs"
 $Context = $null
 $SubscriptionId = $null
 
+# Enable Modules
+Import-Module az.monitor
+import-module az.resourcegraph
+
 # Connecting to Azure
 try {
     Connect-AzAccount
