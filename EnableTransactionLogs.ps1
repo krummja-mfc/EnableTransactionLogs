@@ -64,6 +64,7 @@ while ($Skip -lt $TotalAZGraph) {
     $Query += $QueryTemp
     $Skip += 1000
 }
+$Query = $Query | Sort-Object -Property subscriptionId
 
 # Setting up Log Configuration for Transaction Logs
 $metric = New-AzDiagnosticSettingMetricSettingsObject -Enabled $true -Category "Transaction" -RetentionPolicyEnabled $true
