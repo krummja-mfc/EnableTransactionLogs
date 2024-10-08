@@ -68,7 +68,7 @@ while ($Skip -lt $TotalAZGraph) {
 # Setting up Log Configuration for Transaction Logs
 $metric = New-AzDiagnosticSettingMetricSettingsObject -Enabled $true -Category "Transaction" -RetentionPolicyEnabled $true
 
-foreach ($StgAcct in $kqlQuery)
+foreach ($StgAcct in $Query)
 {
     $SubscriptionId = $StgAcct.subscriptionId
     if ($Context -ne $SubscriptionId)
