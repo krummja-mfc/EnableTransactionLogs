@@ -35,16 +35,16 @@ try {
 # List storage accounts 
 $Counter = 1000
 $Skip = 0
+$QueryTemp = $null
 $Query = @()
 
-$TotalAZGraph = $TotalAZGraph | Select-Object -ExpandProperty Count
 $CountQuery = 'resources 
             | where type =~ "Microsoft.Storage/storageAccounts" 
             | extend properties = parse_json(properties)
             | extend tlsVersion = properties.minimumTlsVersion
             | where isnotempty(tlsVersion) and tlsVersion !contains "2"
-            | sort by subscriptionId asc'
-$Query = 'resources 
+            | count'
+$QueryString = 'resources 
             | where type =~ "Microsoft.Storage/storageAccounts" 
             | extend properties = parse_json(properties)
             | extend tlsVersion = properties.minimumTlsVersion
@@ -52,13 +52,14 @@ $Query = 'resources
             | sort by subscriptionId asc'
 
 $TotalAZGraph = Search-AzGraph -Query $CountQuery -UseTenantScope
+$TotalAZGraph = $TotalAZGraph | Select-Object -ExpandProperty Count
 
 while ($Skip -lt $TotalAZGraph) {
     if ($skip -eq 0) {
-        $QueryTemp = Search-AzGraph -Query $Query -first $Counter -UseTenantScope
+        $QueryTemp = Search-AzGraph -Query $QueryString -first $Counter -UseTenantScope
     }
     else {
-        $QueryTemp = Search-AzGraph -Query $Query -first $Counter -Skip $Skip -UseTenantScope
+        $QueryTemp = Search-AzGraph -Query $QueryString -first $Counter -Skip $Skip -UseTenantScope
     }
     $Query += $QueryTemp
     $Skip += 1000
